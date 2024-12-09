@@ -1,0 +1,80 @@
+/* General Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #121212;
+  color: #e0e0e0;
+  text-align: center;
+}
+
+h1 {
+  margin: 20px 0;
+  font-size: 2.5rem;
+  color: #ffffff;
+}
+
+/* Playlist Container */
+.playlists-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Playlist Card Styles */
+.playlist {
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.playlist:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Fixed Size for Playlist Images */
+.playlist img {
+  width: 100%;
+  height: 250px;
+  /* Set a fixed height */
+  object-fit: cover;
+  /* Ensures the image fills the box without distortion */
+  border-bottom: 2px solid #1DB954;
+}
+
+.playlist h2 {
+  font-size: 1.2rem;
+  margin: 15px 0 5px 0;
+  color: #ffffff;
+}
+
+.playlist p {
+  font-size: 1rem;
+  margin: 5px 0;
+  color: #b3b3b3;
+}
+
+/* Button Styles */
+.playlist a {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #1DB954;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  display: inline-block;
+  margin: 10px 0;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.playlist a:hover {
+  background-color: #1ed760;
+  transform: translateY(-3px);
+}
