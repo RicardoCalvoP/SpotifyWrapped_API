@@ -83,7 +83,24 @@ def get_playlists():
     response = requests.get(f"{API_BASE_URL}me/playlists", headers=headers)
     if response.status_code != 200:
         return jsonify({"error": "Failed to fetch playlists", "details": response.json()})
-    return jsonify(response.json())
+
+    # Filtrar información relevante
+    playlists = response.json().get('items', [])
+    simplified_playlists = [
+        {
+            "name": playlist["name"],
+            "image": playlist["images"][0]["url"] if playlist["images"] else None,
+            "owner": playlist["owner"]["display_name"],
+            "total_tracks": playlist["tracks"]["total"],
+            "description": playlist["description"],
+            "spotify_url": playlist["external_urls"]["spotify"]
+        }
+        for playlist in playlists if playlist
+    ]
+    print(simplified_playlists)
+
+    # Renderizar la plantilla con datos
+    return render_template('playlists.html', playlists=simplified_playlists)
 
 
 @app.route('/refresh-token')
