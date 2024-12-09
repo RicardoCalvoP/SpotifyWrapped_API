@@ -1,0 +1,57 @@
+/* General styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background-color: #121212;
+  /* Dark background */
+  color: #e0e0e0;
+  /* Light text */
+}
+
+h1 {
+  margin-top: 50px;
+  font-size: 2.5rem;
+  color: #ffffff;
+  /* Pure white for contrast */
+}
+
+p {
+  font-size: 1.2rem;
+  margin: 20px 0;
+  color: #b3b3b3;
+  /* Slightly dimmed for balance */
+}
+
+/* Image styles */
+img {
+  margin-top: 20px;
+  max-width: 150px;
+  height: auto;
+  filter: brightness(0.9);
+  /* Slightly dim the image */
+}
+
+/* Button styles */
+a {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 12px 25px;
+  background-color: #1DB954;
+  /* Spotify Green */
+  color: #121212;
+  /* Dark text on button */
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a:hover {
+  background-color: #1a9144;
+  /* Darker green for hover */
+  color: #ffffff;
+  /* White text on hover */
+}

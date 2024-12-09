@@ -1,7 +1,7 @@
 import requests
 import urllib.parse
 from dotenv import load_dotenv
-from flask import Flask, redirect, request, jsonify, session
+from flask import Flask, redirect, request, jsonify, session, render_template
 from datetime import datetime
 import os
 
@@ -29,7 +29,7 @@ app.secret_key = os.getenv("SECRET_KEY", os.urandom(24))
 
 @app.route('/')
 def index():
-    return "Welcome to my Spotify App <a href= '/login'>Login with Spotify</a>"
+    return render_template('index.html')
 
 
 @app.route('/login')

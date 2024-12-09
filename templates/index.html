@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spotify App</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+
+<body>
+  <h1>Welcome to My Spotify App</h1>
+  <img src="{{ url_for('static', filename='spotifyBanner.png') }}" alt="Spotify Logo">
+  <p>
+    Discover your Spotify stats: explore your most-played songs, favorite artists, and the playlists you can't stop
+    repeating.
+  </p>
+  <a href="/login">Login with Spotify</a>
+</body>
+
+</html>
