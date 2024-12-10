@@ -34,13 +34,14 @@ def index():
 
 @app.route('/login')
 def login():
-    scope = 'user-read-private user-read-email'
+    scope = 'user-read-private user-read-email user-read-recently-played'
     params = {
         'client_id': CLIENT_ID,
         'response_type': 'code',
         'scope': scope,
         'redirect_uri': REDIRECT_URI,
         'show_dialog': True
+
     }
     auth_url = f"{AUTH_URL}?{urllib.parse.urlencode(params)}"
     return redirect(auth_url)
@@ -100,6 +101,39 @@ def get_playlists():
 
     # Renderizar la plantilla con datos
     return render_template('playlists.html', playlists=simplified_playlists)
+
+
+@app.route('/recently-played')
+def recently_played():
+    if 'access_token' not in session:
+        return redirect('/login')
+
+    if float(datetime.now().timestamp()) > float(session['expires_at']):
+        return redirect('/refresh-token')
+
+    headers = {'Authorization': f"Bearer {session['access_token']}"}
+
+    response = requests.get(
+        f"{API_BASE_URL}me/player/recently-played?limit=50", headers=headers)
+
+    if response.status_code != 200:
+        return jsonify({'error': 'Failed to fetch recently played tracks', 'details': response.json()})
+
+    # Parse the response
+    tracks = response.json().get('items', [])
+    recently_played_tracks = [
+        {
+            'track_name': item['track']['name'],
+            'artist_name': ', '.join(artist['name'] for artist in item['track']['artists']),
+            'album_name': item['track']['album']['name'],
+            'image_url': item['track']['album']['images'][0]['url'] if item['track']['album']['images'] else None,
+            'played_at': item['played_at'],
+            'spotify_url': item['track']['external_urls']['spotify']
+        }
+        for item in tracks
+    ]
+
+    return render_template('recently_played.html', tracks=recently_played_tracks)
 
 
 @app.route('/refresh-token')
