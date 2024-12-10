@@ -69,7 +69,7 @@ h1 {
 
 /* Button Styles */
 .playlist a {
-  color: #ffffff;
+  color: #f4f4f4;
   text-decoration: none;
   background-color: #1DB954;
   padding: 10px 20px;
@@ -109,13 +109,37 @@ h1 {
   font-size: 1rem;
   font-weight: bold;
   padding: 8px 12px;
-  border-radius: 5px;
+  border-radius: 8px;
   transition: background-color 0.3s, color 0.3s;
+}
+
+/* Highlight the active link */
+.navigation-bar a.active {
+  background-color: #199c47;
+  /* Dark background for the active page */
+  color: #f4f4f4;
+  /* Spotify green for text */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+  /* Subtle shadow effect */
+  border-radius: 8px;
+  /* Optional rounded corners */
+}
+
+.navigation-bar a.active:hover {
+  background-color: #199c47;
+  /* Dark background for the active page */
+  color: #f4f4f4;
+  /* Spotify green for text */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+  /* Subtle shadow effect */
+  border-radius: 8px;
+  /* Optional rounded corners */
 }
 
 .navigation-bar a:hover {
   background-color: #121212;
   /* Dark background on hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
   color: #1DB954;
   /* Green text on hover */
 }
