@@ -9,6 +9,13 @@
 </head>
 
 <body>
+  <nav class="navigation-bar">
+    <a href="/playlists">Playlists</a>
+    <a href="/most-listened-artists">Most Listened Artists</a>
+    <a href="/most-listened-songs">Most Listened Songs</a>
+    <a href="/recently-played">Recently Played Tracks</a>
+  </nav>
+
   <h1>Your Spotify Playlists</h1>
   <div class="playlists-container">
     {% for playlist in playlists %}
@@ -17,10 +24,6 @@
       <h2>{{ playlist.name }}</h2>
       <p>By: {{ playlist.owner }}</p>
       <p>Total Tracks: {{ playlist.total_tracks }}</p>
-      {% if playlist.description %}
-      <p>Description: {{ playlist.description }}</p>
-      {% endif %}
-
       <a href="{{ playlist.spotify_url }}" target="_blank">Open in Spotify</a>
     </div>
     {% endfor %}
