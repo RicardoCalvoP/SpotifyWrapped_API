@@ -69,7 +69,12 @@ def callback():
     session['refresh_token'] = token_info['refresh_token']
     session['expires_at'] = datetime.now().timestamp() + \
         token_info['expires_in']
-    return redirect('/playlists')
+    return redirect('/menu')
+
+
+@app.route('/menu')
+def menu():
+    return render_template('menu.html')
 
 
 @app.route('/playlists')
@@ -92,7 +97,6 @@ def get_playlists():
             "image": playlist["images"][0]["url"] if playlist["images"] else None,
             "owner": playlist["owner"]["display_name"],
             "total_tracks": playlist["tracks"]["total"],
-            "description": playlist["description"],
             "spotify_url": playlist["external_urls"]["spotify"]
         }
         for playlist in playlists if playlist
