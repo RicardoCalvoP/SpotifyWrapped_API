@@ -69,12 +69,7 @@ def callback():
     session['refresh_token'] = token_info['refresh_token']
     session['expires_at'] = datetime.now().timestamp() + \
         token_info['expires_in']
-    return redirect('/menu')
-
-
-@app.route('/menu')
-def menu():
-    return render_template('menu.html')
+    return redirect('/playlists')
 
 
 @app.route('/playlists')
