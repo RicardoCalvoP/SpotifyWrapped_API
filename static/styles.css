@@ -1,57 +1,225 @@
-/* General styles */
+/* General Styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Consolas';
   margin: 0;
   padding: 0;
-  text-align: center;
   background-color: #121212;
-  /* Dark background */
   color: #e0e0e0;
-  /* Light text */
+  text-align: center;
+  padding-top: 60px;
 }
 
 h1 {
-  margin-top: 50px;
   font-size: 2.5rem;
-  color: #ffffff;
-  /* Pure white for contrast */
-}
-
-p {
-  font-size: 1.2rem;
   margin: 20px 0;
-  color: #b3b3b3;
-  /* Slightly dimmed for balance */
-}
-
-/* Image styles */
-img {
-  margin-top: 20px;
-  max-width: 150px;
-  height: auto;
-  filter: brightness(0.9);
-  /* Slightly dim the image */
-}
-
-/* Button styles */
-a {
-  display: inline-block;
-  margin-top: 30px;
-  padding: 12px 25px;
-  background-color: #1DB954;
-  /* Spotify Green */
-  color: #121212;
-  /* Dark text on button */
-  text-decoration: none;
-  font-size: 1.1rem;
-  font-weight: bold;
-  border-radius: 25px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-a:hover {
-  background-color: #1a9144;
-  /* Darker green for hover */
   color: #ffffff;
-  /* White text on hover */
+}
+
+/* Navigation Bar */
+.navigation-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #1DB954;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+.navigation-bar a {
+  color: #121212;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navigation-bar a.active {
+  background-color: #121212;
+  color: #1DB954;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+.navigation-bar a:hover {
+  background-color: #121212;
+  color: #1ed760;
+}
+
+/* Content Container */
+.content-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* Invisible Playlist Style */
+.playlist.invisible {
+  visibility: hidden;
+  /* Makes the entire playlist invisible */
+  pointer-events: none;
+  /* Disables all interactions */
+}
+
+/* Playlist Card Styles */
+.playlist {
+  display: flex;
+  /* Use flexbox for vertical alignment */
+  flex-direction: column;
+  /* Stack elements vertically */
+  justify-content: space-between;
+  /* Space out elements */
+  align-items: center;
+  /* Center elements horizontally */
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  text-align: center;
+  width: 300px;
+  height: 450px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.playlist:hover {
+  transform: scale(1.05);
+  box-shadow: 0 20px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Fixed Size for Playlist Images */
+.playlist img {
+  width: 100%;
+  height: 250px;
+  /* Set a fixed height */
+  object-fit: cover;
+  /* Ensures the image fills the box without distortion */
+  border-bottom: 2px solid #1DB954;
+}
+
+.playlist h2 {
+  font-size: 1.2rem;
+  margin: 15px 0 5px 0;
+  color: #f4f4f4;
+
+}
+
+.playlist p {
+  font-size: 1rem;
+  margin: 5px;
+  color: #b3b3b3;
+}
+
+/* Button Styles */
+.playlist a {
+  color: #f4f4f4;
+  text-decoration: none;
+  background-color: #1DB954;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  display: inline-block;
+  margin: 25px 0;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.playlist a:hover {
+  background-color: #1ed760;
+  transform: translateY(-3px);
+}
+
+/* Track Card */
+.track {
+  display: flex;
+  /* Use flexbox for vertical alignment */
+  flex-direction: column;
+  /* Stack elements vertically */
+  justify-content: space-between;
+  /* Space out elements */
+  align-items: center;
+  /* Center elements horizontally */
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  text-align: center;
+  width: 300px;
+  height: 450px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.track:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+.track:hover img {
+  animation: spin 7s linear infinite;
+  box-shadow: 0 0px 10px #cacacaca;
+  /* Spin animation on hover */
+}
+
+/* Image Styling */
+.track img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 50px solid #000000;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+  margin-top: 20px;
+  box-shadow: 0 0px 5px #cacacaca;
+  /* Space between the image and the content */
+}
+
+/* Text Content */
+.track h2 {
+  font-size: 1.2rem;
+  color: #f4f4f4;
+}
+
+.track p {
+  font-size: 1rem;
+  margin: 5px 10px;
+  color: #b3b3b3;
+}
+
+/* Button Styling */
+.track a {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #1DB954;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  display: inline-block;
+  /* Space between the content and the button */
+  margin-bottom: 25px;
+  /* Consistent spacing from the bottom of the card */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.track a:hover {
+  background-color: #1ed760;
+  transform: translateY(-3px);
+}
+
+
+/* Keyframes for spinning */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
