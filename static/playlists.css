@@ -1,41 +1,92 @@
 /* General Styles */
 body {
-
   font-family: 'Consolas';
-
   margin: 0;
   padding: 0;
   background-color: #121212;
   color: #e0e0e0;
   text-align: center;
   padding-top: 60px;
-  /* Ensure content is not overlapped by the nav */
 }
 
 h1 {
-  margin: 20px 0;
-  margin-top: 50px;
   font-size: 2.5rem;
+  margin: 20px 0;
   color: #ffffff;
 }
 
-/* Playlist Container */
-.playlists-container {
+/* Navigation Bar */
+.navigation-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #1DB954;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+.navigation-bar a {
+  color: #121212;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navigation-bar a.active {
+  background-color: #121212;
+  color: #1DB954;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+.navigation-bar a:hover {
+  background-color: #121212;
+  color: #1ed760;
+}
+
+/* Content Container */
+.content-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
   padding: 20px;
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
+}
+
+/* Invisible Playlist Style */
+.playlist.invisible {
+  visibility: hidden;
+  /* Makes the entire playlist invisible */
+  pointer-events: none;
+  /* Disables all interactions */
 }
 
 /* Playlist Card Styles */
 .playlist {
+  display: flex;
+  /* Use flexbox for vertical alignment */
+  flex-direction: column;
+  /* Stack elements vertically */
+  justify-content: space-between;
+  /* Space out elements */
+  align-items: center;
+  /* Center elements horizontally */
   background-color: #1e1e1e;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   text-align: center;
+  width: 300px;
+  height: 450px;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
@@ -83,63 +134,4 @@ h1 {
 .playlist a:hover {
   background-color: #1ed760;
   transform: translateY(-3px);
-}
-
-/* Navigation Bar */
-.navigation-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: #1DB954;
-  /* Spotify green */
-  padding: 10px 0;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
-  /* Ensures it stays on top of the content */
-}
-
-.navigation-bar a {
-  color: #f4f4f4;
-  /* Dark text for contrast */
-  text-decoration: none;
-  font-size: 1rem;
-  font-weight: bold;
-  padding: 8px 12px;
-  border-radius: 8px;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-/* Highlight the active link */
-.navigation-bar a.active {
-  background-color: #199c47;
-  /* Dark background for the active page */
-  color: #f4f4f4;
-  /* Spotify green for text */
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
-  /* Subtle shadow effect */
-  border-radius: 8px;
-  /* Optional rounded corners */
-}
-
-.navigation-bar a.active:hover {
-  background-color: #199c47;
-  /* Dark background for the active page */
-  color: #f4f4f4;
-  /* Spotify green for text */
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
-  /* Subtle shadow effect */
-  border-radius: 8px;
-  /* Optional rounded corners */
-}
-
-.navigation-bar a:hover {
-  background-color: #121212;
-  /* Dark background on hover */
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
-  color: #1DB954;
-  /* Green text on hover */
 }
