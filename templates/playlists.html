@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Playlists</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='playlists.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
@@ -13,12 +13,11 @@
     <a href="/playlists" class="active">Playlists</a>
     <a href="/most-listened-artists">Most Listened Artists</a>
     <a href="/most-listened-songs">Most Listened Songs</a>
-    <a href="/recently-played">Recently Played Tracks</a>
+    <a href="/recently-played">Recently Played</a>
   </nav>
 
-
   <h1>Your Spotify Playlists</h1>
-  <div class="playlists-container">
+  <div class="content-container">
     {% for playlist in playlists %}
     <div class="playlist">
       <img src="{{ playlist.image }}" alt="Playlist Image">
@@ -28,7 +27,20 @@
       <a href="{{ playlist.spotify_url }}" target="_blank">Open in Spotify</a>
     </div>
     {% endfor %}
+
+    <!-- Add invisible placeholders if fewer than 4 items -->
+    {% for i in range(5 - playlists|length) %}
+    <div class="playlist invisible">
+      <img src="{{ playlists[-1].image }}" alt="Placeholder Image">
+      <h2>{{ playlists[-1].name }}</h2>
+      <p>By: {{ playlists[-1].owner }}</p>
+      <p>Total Tracks: {{ playlists[-1].total_tracks }}</p>
+      <a href="{{ playlists[-1].spotify_url }}" target="_blank">Open in Spotify</a>
+    </div>
+    {% endfor %}
   </div>
+
+
 </body>
 
 </html>
