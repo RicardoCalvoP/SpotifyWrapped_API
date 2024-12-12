@@ -34,7 +34,7 @@ def index():
 
 @app.route('/login')
 def login():
-    scope = 'user-read-private user-read-email user-read-recently-played'
+    scope = 'user-read-private user-read-email user-read-recently-played user-top-read '
     params = {
         'client_id': CLIENT_ID,
         'response_type': 'code',
@@ -134,6 +134,38 @@ def recently_played():
     ]
 
     return render_template('recently_played.html', tracks=recently_played_tracks)
+
+@app.route('/top-artists')
+def top_artists():
+    if 'access_token' not in session:
+        return redirect('/login')
+
+    # Check if the token is expired
+    if float(datetime.now().timestamp()) > float(session['expires_at']):
+        return redirect('/refresh-token')
+
+    headers = {'Authorization': f"Bearer {session['access_token']}"}
+
+    # Fetch top artists
+    response = requests.get(
+        f"{API_BASE_URL}me/top/artists?limit=50", headers=headers)
+
+    if response.status_code != 200:
+        return jsonify({'error': 'Failed to fetch top artists', 'details': response.json()})
+
+    # Parse the response
+    artists = response.json().get('items', [])
+    top_artists = [
+        {
+            'artist_name': artist['name'],
+            'genres': ', '.join(artist['genres']),
+            'image_url': artist['images'][0]['url'] if artist['images'] else None,
+            'spotify_url': artist['external_urls']['spotify']
+        }
+        for artist in artists
+    ]
+
+    return render_template('top_artists.html', artists=top_artists)
 
 
 @app.route('/refresh-token')
