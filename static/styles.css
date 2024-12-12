@@ -59,6 +59,8 @@ h1 {
   gap: 20px;
   padding: 20px;
   max-width: 1300px;
+  /*1300 if we want 4 items per row*/
+  /*1600 if we want 5 items per row*/
   margin: 0 auto;
 }
 
