@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recently Played Songs</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+  <nav class="navigation-bar">
+    <a href="/playlists">Playlists</a>
+    <a href="/most-listened-artists" class="active">Most Listened Artists</a>
+    <a href="/most-listened-songs">Most Listened Songs</a>
+    <a href="/recently-played">Recently Played</a>
+  </nav>
+
+  <h1>Your Top Artists</h1>
+  <div class="content-container">
+    {% for artist in artists %}
+    <div class="playlist">
+      <img src="{{ artist.image_url }}" alt="{{ artist.artist_name }}">
+      <h2>#{{ loop.index }} {{ artist.artist_name }}</h2>
+      <p>Genres: {{ artist.genres }}</p>
+      <a href="{{ artist.spotify_url }}" target="_blank">View on Spotify</a>
+    </div>
+    {% endfor %}
+  </div>
+
+</body>
+
+</html>
