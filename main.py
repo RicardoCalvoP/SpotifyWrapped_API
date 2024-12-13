@@ -167,8 +167,8 @@ def top_artists():
 
     return render_template('top_artists.html', artists=top_artists)
 
-@app.route('/top-tracks')
-def top_tracks():
+@app.route('/top-songs')
+def top_songs():
     if 'access_token' not in session:
         return redirect('/login')
 
@@ -194,13 +194,12 @@ def top_tracks():
             'album_name': track['album']['name'],
             'image_url': track['album']['images'][0]['url'] if track['album']['images'] else None,
             'duration': track['duration_ms'] // 1000,  # Convert ms to seconds
-            'popularity': track['popularity'],
             'spotify_url': track['external_urls']['spotify']
         }
         for track in tracks
     ]
 
-    return render_template('top_tracks.html', tracks=top_tracks)
+    return render_template('/top_songs.html', tracks=top_tracks)
 
 
 
