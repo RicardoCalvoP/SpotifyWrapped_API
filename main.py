@@ -167,6 +167,42 @@ def top_artists():
 
     return render_template('top_artists.html', artists=top_artists)
 
+@app.route('/top-tracks')
+def top_tracks():
+    if 'access_token' not in session:
+        return redirect('/login')
+
+    # Check if the token is expired
+    if float(datetime.now().timestamp()) > float(session['expires_at']):
+        return redirect('/refresh-token')
+
+    headers = {'Authorization': f"Bearer {session['access_token']}"}
+
+    # Fetch top tracks
+    response = requests.get(
+        f"{API_BASE_URL}me/top/tracks?limit=50&time_range=medium_term", headers=headers)
+
+    if response.status_code != 200:
+        return jsonify({'error': 'Failed to fetch top tracks', 'details': response.json()})
+
+    # Parse the response
+    tracks = response.json().get('items', [])
+    top_tracks = [
+        {
+            'track_name': track['name'],
+            'artist_name': ', '.join(artist['name'] for artist in track['artists']),
+            'album_name': track['album']['name'],
+            'image_url': track['album']['images'][0]['url'] if track['album']['images'] else None,
+            'duration': track['duration_ms'] // 1000,  # Convert ms to seconds
+            'popularity': track['popularity'],
+            'spotify_url': track['external_urls']['spotify']
+        }
+        for track in tracks
+    ]
+
+    return render_template('top_tracks.html', tracks=top_tracks)
+
+
 
 @app.route('/refresh-token')
 def refresh_token():
