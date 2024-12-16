@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recently Played Songs</title>
+  <title>New Recommendations</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
@@ -12,12 +12,12 @@
   <nav class="navigation-bar">
     <a href="/playlists">Playlists</a>
     <a href="/top-artists">Most Listened Artists</a>
-    <a href="/top-songs" class="active"">Most Listened Songs</a>
-    <a href=" /recently-played">Recently Played</a>
-    <a href="/recommendations">New Recommendations</a>
+    <a href="/top-songs">Most Listened Songs</a>
+    <a href="/recently-played">Recently Played</a>
+    <a href="/recommendations" class="active">New Recommendations</a>
   </nav>
 
-  <h1>Your Top Artists</h1>
+  <h1>Your New Recommendations</h1>
   <div class="content-container">
     {% for track in tracks %}
     <div class="track">
@@ -29,8 +29,6 @@
     </div>
     {% endfor %}
   </div>
-
-
 </body>
 
 </html>
