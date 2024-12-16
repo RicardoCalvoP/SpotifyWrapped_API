@@ -75,6 +75,8 @@ def callback():
 
 @app.route('/playlists')
 def get_playlists():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
     if 'access_token' not in session:
         return redirect('/login')
     if float(datetime.now().timestamp()) > float(session['expires_at']):
@@ -97,14 +99,14 @@ def get_playlists():
         }
         for playlist in playlists if playlist
     ]
-    print(simplified_playlists)
-
     # Renderizar la plantilla con datos
     return render_template('playlists.html', playlists=simplified_playlists)
 
 
 @app.route('/recently-played')
 def recently_played():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
     if 'access_token' not in session:
         return redirect('/login')
 
@@ -135,8 +137,11 @@ def recently_played():
 
     return render_template('recently_played.html', tracks=recently_played_tracks)
 
+
 @app.route('/top-artists')
 def top_artists():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
     if 'access_token' not in session:
         return redirect('/login')
 
@@ -167,8 +172,11 @@ def top_artists():
 
     return render_template('top_artists.html', artists=top_artists)
 
+
 @app.route('/top-songs')
 def top_songs():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
     if 'access_token' not in session:
         return redirect('/login')
 
@@ -201,6 +209,118 @@ def top_songs():
 
     return render_template('/top_songs.html', tracks=top_tracks)
 
+
+@app.route('/available-genres')
+def available_genres():
+    if 'access_token' not in session:
+        return redirect('/login')
+
+    headers = {'Authorization': f"Bearer {session['access_token']}"}
+    response = requests.get(
+        f"{API_BASE_URL}recommendations/available-genre-seeds", headers=headers)
+
+    if response.status_code != 200:
+        return jsonify({'error': 'Failed to fetch available genres', 'details': response.json()})
+
+    valid_genres = response.json().get('genres', [])
+    print("Valid Genres: ", valid_genres)  # For debugging
+    return jsonify(valid_genres)
+
+
+@app.route('/recommendations')
+def recommendations():
+    #  os.system('cls' if os.name == 'nt' else 'clear')
+
+    if 'access_token' not in session:
+        return redirect('/login')
+
+    # Check if the token is expired
+    if float(datetime.now().timestamp()) > float(session['expires_at']):
+        return redirect('/refresh-token')
+
+    headers = {'Authorization': f"Bearer {session['access_token']}"}
+
+    # Fetch the user's top tracks and artists
+    top_tracks_response = requests.get(
+        f"{API_BASE_URL}me/top/tracks?limit=1", headers=headers)
+    top_tracks = top_tracks_response.json().get(
+        'items', []) if top_tracks_response.status_code == 200 else []
+
+    top_artists_response = requests.get(
+        f"{API_BASE_URL}me/top/artists?limit=1", headers=headers)
+    top_artists = top_artists_response.json().get(
+        'items', []) if top_artists_response.status_code == 200 else []
+
+    # Prepare seeds for recommendations
+    seed_tracks = [track['id'] for track in top_tracks]
+    seed_artists = [artist['id'] for artist in top_artists]
+
+    # Extract genres from top artists
+    genres = []
+    for artist in top_artists:
+        genres.extend(artist.get('genres', []))
+
+    # Count genre frequencies and pick the top 3 genres
+    from collections import Counter
+    genre_counts = Counter(genres)
+    seed_genres = [genre for genre, _ in genre_counts.most_common(3)]
+
+    # Fetch valid genres
+    valid_genres_response = requests.get(
+        f"{API_BASE_URL}recommendations/available-genre-seeds", headers=headers)
+    valid_genres = valid_genres_response.json().get('genres', [])
+
+    # Filter valid genres
+    seed_genres = [genre for genre in seed_genres if genre in valid_genres]
+    if not seed_genres:
+        seed_genres = ['pop', 'rock', 'hip-hop']  # Default fallback genres
+
+    print("Seed Tracks: ", seed_tracks)
+    print("Seed Artists: ", seed_artists)
+    print("Seed Genres: ", seed_genres)
+
+    # Build query parameters
+    params = []
+    if seed_artists:
+        params.append(f"seed_artists={','.join(seed_artists)}")
+    if seed_genres:
+        params.append(f"seed_genres={','.join(seed_genres)}")
+    if seed_tracks:
+        params.append(f"seed_tracks={','.join(seed_tracks)}")
+    params.append("limit=100")
+    query = '&'.join(params)
+
+    print("*************************\nAPI Query:\n*********************************",
+          f"{API_BASE_URL}recommendations?{query}")
+
+    # Fetch recommendations
+    response = requests.get(
+        f"{API_BASE_URL}recommendations?{query}", headers=headers)
+
+    if response.status_code != 200:
+        print("API Error: ", response.status_code, response.text)
+        return jsonify({'error': 'Failed to fetch recommendations', 'details': response.text})
+
+    print("*************************\n RESPONSE:\n*********************************",
+          response)
+
+    # Parse recommendations
+    recommendations = response.json().get('tracks', [])
+    recommended_tracks = [
+        {
+            'track_name': track['name'],
+            'artist_name': ', '.join(artist['name'] for artist in track['artists']),
+            'album_name': track['album']['name'],
+            'image_url': track['album']['images'][0]['url'] if track['album']['images'] else None,
+            'spotify_url': track['external_urls']['spotify']
+        }
+        for track in recommendations
+    ]
+
+    print("*************************\n RECOMMENDATIONS:\n*********************************",
+          recommended_tracks)
+
+    return render_template('recommendations.html', tracks=recommended_tracks)
 
 
 @app.route('/refresh-token')
